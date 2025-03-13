@@ -14,6 +14,9 @@ namespace DungeonExplorer
             try
             {
                 Game game = new Game(); // Create a game object
+                Testing testing = new Testing(game.player);
+                testing.RunTests(); //  Run tests before running the game, to ensure everything works as intended
+
                 game.Start();   // Runs it
             }
             catch(Exception ex) // Error check, if an exception is thrown, a message is displayed

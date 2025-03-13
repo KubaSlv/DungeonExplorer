@@ -6,7 +6,8 @@ namespace DungeonExplorer
     internal class Game
     {
         //  Objects for the player and rooms
-        private Player player;
+        //public Player Player { get { return player; } }
+        public Player player;
         private Room currentRoom;
 
         //  Game constructor, initializes the game contents, e.g. player and room
@@ -21,13 +22,15 @@ namespace DungeonExplorer
         // Main game loop method
         public void Start()
         {
+            player.ResetInventory();    //  Remove inventory contents after testing methods
+
             bool playing = true;
             while (playing) // Iterate the game infinitely
             {
                 Console.WriteLine("\n=-=-=-=-=-=-=-\nType 'help' for commands\n=-=-=-=-=-=-=-\nInput: ");   // Ask the player for their input
                 string userInput = Console.ReadLine();
 
-                switch (userInput)
+                switch (userInput)  // Switch cases for user input
                 {
                     case "help":    // If the player enters 'help', they receive a list of commands which the game works on
                         Console.WriteLine("" +

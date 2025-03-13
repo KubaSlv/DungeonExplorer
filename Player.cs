@@ -74,5 +74,11 @@ namespace DungeonExplorer
         {
             return string.Join(", ", inventory);    // Joins the array with ',' for when displaying the contents to the user
         }
+
+        public void ResetInventory()
+        {
+            inventory.Clear();
+            Console.WriteLine("Inventory reset.");
+        }
     }
 }
