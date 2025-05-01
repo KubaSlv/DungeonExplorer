@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,11 +11,15 @@ namespace DungeonExplorer
     {
         static void Main(string[] args)
         {
-            // OLK - good use of try catch block to prevent errors from crashing program
-            try
+            try // Try block to catch exceptions or runtime errors
             {
+                Inventory inventoryTest = new Inventory();
+                Player playerTest = new Player("Test", 100, inventoryTest);
+                Room roomTest = new Room("Test Room", null);                
+               
+                Testing testing = new Testing(playerTest, roomTest, inventoryTest);
                 Game game = new Game(); // Create a game object
-                Testing testing = new Testing(game.player);
+
                 testing.RunTests(); //  Run tests before running the game, to ensure everything works as intended
 
                 game.Start();   // Runs it

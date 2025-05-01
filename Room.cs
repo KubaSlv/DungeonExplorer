@@ -5,36 +5,117 @@ namespace DungeonExplorer
 {
     public class Room
     {
+
         // Room description as private field
         private string description;
   
-        private static Random random = new Random(); // OLK - Good use of static to make random functions avaliable within class
+        private static Random random = new Random();
 
-        //  Method for randomising room descriptions
-        public string RandomRoom()
-        {
-            string[] rooms =    // Create a string array of room descriptions
-            {
-                "dark damp room",
-                "bright cold room",
-                "moss covered stone wall room"                
-            };
+        // Private fields for items, logic and creatures
 
-            int index = random.Next(rooms.Length);  // Create  an index, which holds a random number between the number of descriptions in the array            
-            description = rooms[index]; // Set description to the random description from the array based on the index
-            return description; // Return the description
-        }
+        private Item item;
 
-        // Constructor for the room, sets its description
-        public Room(string description)
+        private bool itemExists = false;
+
+        private bool itemPickedUp = false;
+
+        private Monster monster;
+
+        // Constructor for the room, sets its description, item and generates monster
+        public Room(string description, Item item)
         {
             this.description = description;
+
+            this.item = item;
+            this.itemExists = item != null;
+            this.monster = GenerateMonster();
         }
 
         // Method returning the description of the room
         public string GetDescription()
         {
-            return description; // OLK - Good use of encapsulation.
+            return description;
+        }
+
+        //  Returns the monster object
+        public Monster GetMonster()
+        {
+            return monster;
+        }
+        //  Returns true if theres a monster and is alive
+        public bool HasMonster()
+        {
+            return monster != null && monster.IsAlive();
+        }
+        //  Method to determine if a room will contain a monster
+        private Monster GenerateMonster()
+        {
+            int chance = random.Next(0, 2);
+
+            if (chance == 0) return null;
+            else
+            {
+                string[] monsterNames = { "Zergling", "Roach" }; //  Create monsters
+                int monsterIndex = random.Next(0, monsterNames.Length);
+                if (monsterNames[monsterIndex] == "Zergling")
+                {
+                    return new Zergling("Zergling", 30);
+                }
+                else
+                {
+                    return new Roach("Roach", 55);
+                }
+            }
+        }
+        //  Assigns an item to the room
+        public void SetItem(Item item)
+        {
+            this.item = item;
+            this.itemExists = true;
+        }
+        //  Predefined pool of random items
+        public static Item[] RandomItems =
+        {
+            new Weapon("Faulty Rifle", 10),
+            new ObjectiveItem("Zerg Sample"),
+            new Potion("Stim Pack", 20),
+            new ObjectiveItem("Xel'naga fragment")           
+        };
+        //  Picks and returns a random item
+        public Item RandomItem()
+        {
+            int index = random.Next(RandomItems.Length);
+            item = RandomItems[index];
+            itemExists = true;
+            return item;
+        }
+        //  Returns if an item exists in the room
+        public bool GetItemExists()
+        {
+            return itemExists;
+        }
+        //  Removes the item from the room
+        public void RemoveItem()
+        {
+            item = null;
+            itemExists = false;
+        }
+        //  Returns whether the item has been picked up
+        public bool IsItemPickedUp()
+        {
+            return itemPickedUp;
+        }
+        //  Marks the item as picked up
+        public void MarkItemPickedUp()
+        {
+            itemPickedUp = true;
+        }
+
+        //  Method for returning the item in the room
+
+        public Item GetItem()
+        {
+            return item;
         }
     }
 }
